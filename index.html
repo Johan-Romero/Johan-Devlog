@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Johan Leon — Dev · QA · IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080810;
+  --surface: #0e0e18;
+  --card: #12121c;
+  --border: #ffffff0d;
+  --border-hover: #ffffff1a;
+  --accent: #a3ff6e;
+  --accent2: #6eb4ff;
+  --accent3: #ff6eb4;
+  --accent4: #ffe06e;
+  --text: #dde0f0;
+  --muted: #5a5a72;
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --font-body: 'DM Sans', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;cursor:none;}
+.cur{width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;}
+.cur-r{width:32px;height:32px;border:1px solid #a3ff6e50;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:width .2s,height .2s,opacity .2s;}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(#ffffff05 1px,transparent 1px),linear-gradient(90deg,#ffffff05 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;border-bottom:1px solid var(--border);background:#080810e0;backdrop-filter:blur(24px);}
+.nav-logo{font-family:var(--font-display);font-weight:800;font-size:1rem;letter-spacing:-.02em;}
+.nav-logo em{color:var(--accent);font-style:normal;}
+.nav-links{display:flex;gap:1.75rem;list-style:none;}
+.nav-links a{font-family:var(--font-mono);font-size:.72rem;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .2s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-pill{font-family:var(--font-mono);font-size:.65rem;color:var(--accent);border:1px solid #a3ff6e35;padding:.28rem .8rem;letter-spacing:.12em;display:flex;align-items:center;gap:.4rem;}
+.nav-pill::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.hero{min-height:100vh;display:flex;align-items:center;padding:8rem 2.5rem 4rem;position:relative;z-index:1;}
+.hero-inner{max-width:860px;}
+.hero-tag{font-family:var(--font-mono);font-size:.7rem;color:var(--accent);letter-spacing:.15em;margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;opacity:0;animation:fadeUp .5s .15s forwards;}
+.hero-tag::before{content:'';width:28px;height:1px;background:var(--accent);}
+h1{font-family:var(--font-display);font-size:clamp(2.8rem,8vw,6rem);font-weight:800;line-height:.93;letter-spacing:-.035em;margin-bottom:1.5rem;opacity:0;animation:fadeUp .6s .3s forwards;}
+h1 .g{color:var(--accent);}
+h1 .o{color:transparent;-webkit-text-stroke:1px #ffffff18;}
+.hero-desc{max-width:500px;font-size:.95rem;color:var(--muted);line-height:1.75;margin-bottom:2rem;opacity:0;animation:fadeUp .6s .45s forwards;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.25rem;opacity:0;animation:fadeUp .6s .55s forwards;}
+.chip{font-family:var(--font-mono);font-size:.67rem;padding:.28rem .75rem;border:1px solid var(--border);color:var(--muted);letter-spacing:.04em;transition:all .2s;}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.hero-cta{display:flex;gap:.75rem;flex-wrap:wrap;opacity:0;animation:fadeUp .6s .65s forwards;}
+.btn{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.08em;padding:.8rem 1.75rem;text-decoration:none;display:inline-block;transition:all .2s;font-weight:500;}
+.btn-p{background:var(--accent);color:#000;}
+.btn-p:hover{background:#fff;transform:translateY(-2px);}
+.btn-s{border:1px solid var(--border);color:var(--muted);}
+.btn-s:hover{border-color:var(--accent2);color:var(--accent2);}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;}
+.g1{width:480px;height:480px;background:#a3ff6e08;top:5%;right:-80px;}
+.g2{width:280px;height:280px;background:#6eb4ff06;bottom:15%;left:10%;}
+section{position:relative;z-index:1;padding:5.5rem 2.5rem;}
+.s-label{font-family:var(--font-mono);font-size:.67rem;color:var(--accent);letter-spacing:.2em;margin-bottom:.9rem;display:flex;align-items:center;gap:.65rem;}
+.s-label::before{content:'';width:28px;height:1px;background:var(--accent);}
+h2{font-family:var(--font-display);font-size:clamp(1.9rem,5vw,3.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:2.75rem;line-height:1;}
+.exp-list{display:grid;gap:1px;}
+.exp-card{background:var(--card);border:1px solid var(--border);padding:1.75rem 2rem;display:grid;grid-template-columns:1fr auto;gap:1rem;transition:border-color .2s,background .2s;position:relative;overflow:hidden;}
+.exp-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);transform:scaleY(0);transform-origin:bottom;transition:transform .3s;}
+.exp-card:hover::before{transform:scaleY(1);}
+.exp-card:hover{background:#15151f;border-color:var(--border-hover);}
+.exp-co{font-family:var(--font-mono);font-size:.72rem;color:var(--accent);margin-bottom:.5rem;}
+.exp-role{font-family:var(--font-display);font-size:1.05rem;font-weight:700;margin-bottom:.65rem;}
+.exp-body{color:var(--muted);font-size:.87rem;line-height:1.68;}
+.exp-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.9rem;}
+.etag{font-family:var(--font-mono);font-size:.62rem;padding:.18rem .55rem;background:#ffffff06;color:var(--muted);border:1px solid var(--border);}
+.exp-date{font-family:var(--font-mono);font-size:.67rem;color:var(--muted);white-space:nowrap;text-align:right;padding-top:.2rem;}
+
+/* SKILLS */
+.skills-cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;}
+.sk-cat{background:var(--card);border:1px solid var(--border);padding:1.5rem 1.75rem;transition:border-color .2s;}
+.sk-cat:hover{border-color:var(--border-hover);}
+.sk-cat-title{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.14em;margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem;}
+.sk-cat-title.c1{color:var(--accent);}
+.sk-cat-title.c2{color:var(--accent2);}
+.sk-cat-title.c3{color:var(--accent3);}
+.sk-cat-title.c4{color:var(--accent4);}
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:.5rem;}
+.sk-item{display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.65rem .4rem;border:1px solid var(--border);transition:all .2s;cursor:default;}
+.sk-item:hover{border-color:var(--border-hover);background:#ffffff04;transform:translateY(-2px);}
+.sk-item svg,.sk-item img{width:28px;height:28px;flex-shrink:0;object-fit:contain;}
+.sk-item span{font-family:var(--font-mono);font-size:.57rem;color:var(--muted);text-align:center;letter-spacing:.02em;line-height:1.3;}
+.sk-item:hover span{color:var(--text);}
+
+/* PRESENTATIONS */
+.pres-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem;}
+.pres-card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color .3s,transform .3s;}
+.pres-card:hover{border-color:var(--border-hover);transform:translateY(-3px);}
+.pres-hd{padding:1rem 1.25rem .85rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;}
+.pres-name{font-family:var(--font-display);font-size:.92rem;font-weight:700;line-height:1.2;}
+.pbadge{font-family:var(--font-mono);font-size:.58rem;padding:.18rem .55rem;letter-spacing:.07em;white-space:nowrap;margin-top:.15rem;flex-shrink:0;}
+.ba{background:#6eb4ff10;color:var(--accent2);border:1px solid #6eb4ff25;}
+.bs{background:#a3ff6e10;color:var(--accent);border:1px solid #a3ff6e25;}
+.bc{background:#ff6eb410;color:var(--accent3);border:1px solid #ff6eb425;}
+.pres-embed{position:relative;width:100%;padding-bottom:58%;background:#0b0b14;}
+.pres-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+.pres-ft{padding:.9rem 1.25rem;font-size:.8rem;color:var(--muted);line-height:1.55;border-top:1px solid var(--border);}
+
+/* CONTACT */
+.contact-wrap{border:1px solid var(--border);background:var(--card);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;}
+.contact-left{padding:3rem;border-right:1px solid var(--border);}
+.contact-right{padding:3rem;display:flex;flex-direction:column;gap:.75rem;justify-content:center;}
+.contact-h{font-family:var(--font-display);font-size:2.2rem;font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:1rem;}
+.contact-h em{color:var(--accent);font-style:normal;}
+.contact-sub{color:var(--muted);font-size:.87rem;line-height:1.7;}
+.c-link{display:flex;align-items:center;gap:.85rem;text-decoration:none;color:var(--text);padding:.9rem 1.1rem;border:1px solid var(--border);transition:all .2s;font-family:var(--font-mono);font-size:.75rem;}
+.c-link:hover{border-color:var(--accent);color:var(--accent);}
+.c-link svg{width:16px;height:16px;opacity:.4;flex-shrink:0;transition:opacity .2s;}
+.c-link:hover svg{opacity:.9;}
+footer{border-top:1px solid var(--border);padding:1.75rem 2.5rem;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;}
+.ft{font-family:var(--font-mono);font-size:.67rem;color:var(--muted);}
+.ft em{color:var(--accent);font-style:normal;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:#ffffff0f;}
+@media(max-width:768px){nav{padding:1rem 1.25rem;}.nav-links{display:none;}section{padding:3.5rem 1.25rem;}.hero{padding:6.5rem 1.25rem 3rem;}.contact-wrap{grid-template-columns:1fr;}.contact-left{border-right:none;border-bottom:1px solid var(--border);padding:2rem;}.contact-right{padding:2rem;}footer{flex-direction:column;gap:.4rem;text-align:center;}}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="curR"></div>
+
+<nav>
+  <div class="nav-logo">Johan<em>.</em>dev</div>
+  <ul class="nav-links">
+    <li><a href="#experiencia">experiencia</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#portafolio">portafolio</a></li>
+    <li><a href="#contacto">contacto</a></li>
+  </ul>
+  <div class="nav-pill">DISPONIBLE</div>
+</nav>
+
+<section class="hero">
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Full Stack Dev · QA · Automatización con IA</div>
+    <h1>Oscar Johan<br><span class="g">Leon</span> <span class="o">Romero</span></h1>
+    <p class="hero-desc">Técnico en desarrollo de software con experiencia real en fintech internacional. QA, automatización con IA y presentaciones técnicas de alto impacto.</p>
+    <div class="hero-chips">
+      <span class="chip">Medellín, Colombia</span>
+      <span class="chip">Remoto disponible</span>
+      <span class="chip">Inglés funcional</span>
+      <span class="chip">6m fintech internacional</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#portafolio" class="btn btn-p">Ver portafolio →</a>
+      <a href="#contacto" class="btn btn-s">Contactar</a>
+    </div>
+  </div>
+</section>
+
+<section id="experiencia">
+  <div class="s-label">trayectoria</div>
+  <h2>Experiencia</h2>
+  <div class="exp-list reveal">
+    <div class="exp-card">
+      <div>
+        <div class="exp-co">Lend Flow — Fintech Internacional · Remoto en inglés</div>
+        <div class="exp-role">QA Operativo · Automatización · Apoyo a Procesos</div>
+        <div class="exp-body">Validé flujos funcionales y documenté hallazgos para prevenir errores en producción. Automaticé procesos repetitivos con N8N y webhooks reduciendo carga manual. Desarrollé calculadora interna en JavaScript para comparar opciones de prestamistas. Presentaciones técnicas semanales a liderazgo.</div>
+        <div class="exp-tags"><span class="etag">N8N</span><span class="etag">Webhooks</span><span class="etag">JavaScript</span><span class="etag">QA Manual</span><span class="etag">REST APIs</span><span class="etag">Inglés diario</span></div>
+      </div>
+      <div class="exp-date">2024 · 6m</div>
+    </div>
+    <div class="exp-card">
+      <div>
+        <div class="exp-co">Multiempleos S.A.S</div>
+        <div class="exp-role">Apoyo Operativo</div>
+        <div class="exp-body">Logística, orden de materiales y cumplimiento de tareas en campo.</div>
+      </div>
+      <div class="exp-date">2025</div>
+    </div>
+    <div class="exp-card">
+      <div>
+        <div class="exp-co">CineColombia Viva Envigado</div>
+        <div class="exp-role">Servicio al Cliente</div>
+        <div class="exp-body">Atención directa, orientación en punto de servicio y manejo responsable de caja.</div>
+      </div>
+      <div class="exp-date">2022–2023</div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="s-label">herramientas</div>
+  <h2>Stack &amp; habilidades</h2>
+  <div class="skills-cats reveal">
+
+    <div class="sk-cat">
+      <div class="sk-cat-title c1"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect width="12" height="12" rx="2" fill="#a3ff6e18"/><path d="M3 4L1 6l2 2M9 4l2 2-2 2M7 2L5 10" stroke="#a3ff6e" stroke-width="1.2" stroke-linecap="round"/></svg>DESARROLLO</div>
+      <div class="sk-grid">
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/html5/E34F26" alt="" loading="lazy">
+          <span>HTML5</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/css/1572B6" alt="" loading="lazy">
+          <span>CSS3</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="" loading="lazy">
+          <span>JavaScript</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/typescript/3178C6" alt="" loading="lazy">
+          <span>TypeScript</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/python/3776AB" alt="" loading="lazy">
+          <span>Python</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/react/61DAFB" alt="" loading="lazy">
+          <span>React</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/nextdotjs/FFFFFF" alt="" loading="lazy">
+          <span>Next.js</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/postgresql/4169E1" alt="" loading="lazy">
+          <span>PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sk-cat">
+      <div class="sk-cat-title c2"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#6eb4ff" stroke-width="1.1"/><path d="M4 6l1.5 1.5L8.5 4" stroke="#6eb4ff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>QA &amp; PROCESOS</div>
+      <div class="sk-grid">
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="3" fill="#6eb4ff12"/><path d="M6 8h16M6 13h11M6 18h13" stroke="#6eb4ff" stroke-width="1.5" stroke-linecap="round"/><circle cx="21" cy="19" r="3.5" fill="#6eb4ff22" stroke="#6eb4ff" stroke-width="1.2"/><path d="M19.8 19l1 1 1.8-1.8" stroke="#6eb4ff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Pruebas manuales</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="3" fill="#6eb4ff12"/><path d="M9 19l5-10 5 10" stroke="#6eb4ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16h6" stroke="#6eb4ff" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <span>Validación funcional</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="3" fill="#6eb4ff12"/><circle cx="14" cy="14" r="7" stroke="#6eb4ff" stroke-width="1.3"/><path d="M14 10v4l3 2" stroke="#6eb4ff" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <span>Seguimiento errores</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="3" fill="#6eb4ff12"/><path d="M8 8h12M8 12h12M8 16h8" stroke="#6eb4ff" stroke-width="1.3" stroke-linecap="round"/><path d="M17 20l2-2 4 4-2 2-4-4z" fill="#6eb4ff"/></svg>
+          <span>Documentación técnica</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="3" fill="#6eb4ff12"/><path d="M8 20c0-5 3-8 6-8s6 3 6 8" stroke="#6eb4ff" stroke-width="1.3" stroke-linecap="round"/><path d="M14 12V8M11 9l3-1 3 1" stroke="#6eb4ff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Mejora procesos</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="3" fill="#6eb4ff12"/><rect x="7" y="8" width="6" height="5" rx="1" stroke="#6eb4ff" stroke-width="1.2"/><rect x="15" y="8" width="6" height="5" rx="1" stroke="#6eb4ff" stroke-width="1.2"/><rect x="11" y="17" width="6" height="5" rx="1" stroke="#6eb4ff" stroke-width="1.2"/><path d="M10 13v2.5h8v1.5" stroke="#6eb4ff" stroke-width="1.1" stroke-linecap="round"/><path d="M14 13v4" stroke="#6eb4ff" stroke-width="1.1" stroke-linecap="round"/></svg>
+          <span>Flujos internos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sk-cat">
+      <div class="sk-cat-title c3"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1v3M6 8v3M1 6h3M8 6h3" stroke="#ff6eb4" stroke-width="1.2" stroke-linecap="round"/><circle cx="6" cy="6" r="2" stroke="#ff6eb4" stroke-width="1.1"/></svg>AUTOMATIZACIÓN &amp; IA</div>
+      <div class="sk-grid">
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/n8n/EA4B71" alt="" loading="lazy">
+          <span>N8N</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#ff6eb412"/><path d="M9 9v6a4 4 0 0 0 8 0v-4" stroke="#ff6eb4" stroke-width="1.5" stroke-linecap="round"/><path d="M17 11h3M20 11l-2-2M20 11l-2 2" stroke="#ff6eb4" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="9" r="2" fill="#ff6eb4"/><circle cx="17" cy="15" r="2" fill="#ff6eb470"/></svg>
+          <span>Webhooks</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#ff6eb412"/><rect x="6" y="8" width="16" height="12" rx="2" stroke="#ff6eb4" stroke-width="1.3"/><path d="M9 12h2.5M9 16h4M16 12l2 2-2 2" stroke="#ff6eb4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>REST APIs</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="14" fill="#10a37f20"/><path d="M13.8 6.5c1.8-.9 4 .1 4.6 2l.2.6.6.1c2 .4 3.1 2.5 2.4 4.4l-.2.6.4.5c1.3 1.6.7 4-1.1 5l-.6.3-.1.6c-.6 2-2.8 2.9-4.6 2l-.6-.3-.6.3c-1.8.9-4-.1-4.6-2l-.2-.6-.6-.1c-2-.4-3.1-2.5-2.4-4.4l.2-.6-.4-.5c-1.3-1.6-.7-4 1.1-5l.6-.3.1-.6c.6-2 2.8-2.9 4.6-2l.6.3.6-.3z" stroke="#10a37f" stroke-width="1.25"/><path d="M10.5 12.2l3.5-2 3.5 2v3.6l-3.5 2-3.5-2v-3.6zM14 10.2v7.6M10.6 12.3l6.8 3.4M17.4 12.3l-6.8 3.4" stroke="#10a37f" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>ChatGPT</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/anthropic/D97757" alt="" loading="lazy">
+          <span>Claude AI</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/git/F05032" alt="" loading="lazy">
+          <span>Git</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sk-cat">
+      <div class="sk-cat-title c4"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="7" rx="1" stroke="#ffe06e" stroke-width="1.1"/><path d="M6 9v2M4 11h4" stroke="#ffe06e" stroke-width="1.1" stroke-linecap="round"/></svg>PRESENTACIONES</div>
+      <div class="sk-grid">
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#b7472a"/><path d="M8 7h8.5a4.5 4.5 0 0 1 0 9H12v5H8V7zm4 3.4v2.2h4.2a1.1 1.1 0 0 0 0-2.2H12z" fill="#fff"/><path d="M17 7.4c3.1.5 5.5 3.2 5.5 6.6H17V7.4z" fill="#fff" fill-opacity=".35"/><path d="M17 14h5.5c-.3 3-2.5 5.4-5.5 6v-6z" fill="#fff" fill-opacity=".2"/></svg>
+          <span>PowerPoint</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><defs><linearGradient id="canvaG" x1="5" y1="5" x2="23" y2="23" gradientUnits="userSpaceOnUse"><stop stop-color="#00c4cc"/><stop offset=".55" stop-color="#7d2ae8"/><stop offset="1" stop-color="#ff66c4"/></linearGradient></defs><rect width="28" height="28" rx="14" fill="url(#canvaG)"/><path d="M18.6 10.4c-.9-1.2-2.2-1.9-3.9-1.9-3.3 0-6.2 2.8-6.2 6.1 0 2.9 2.2 4.9 5.1 4.9 1.9 0 3.6-.8 4.9-2.3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>Canva</span>
+        </div>
+        <div class="sk-item">
+          <img src="https://cdn.simpleicons.org/googleslides/FBBC04" alt="" loading="lazy">
+          <span>Google Slides</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="3" fill="#ffe06e12"/><path d="M8 20l3-5 3 3 3-4 3 6" stroke="#ffe06e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Visual storytelling</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="3" fill="#ffe06e12"/><path d="M8 9h12M8 13h9M8 17h10M8 21h6" stroke="#ffe06e" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <span>Diseño HV</span>
+        </div>
+        <div class="sk-item">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="3" fill="#ffe06e12"/><rect x="6" y="6" width="7" height="7" rx="1" stroke="#ffe06e" stroke-width="1.2"/><rect x="15" y="6" width="7" height="7" rx="1" stroke="#ffe06e" stroke-width="1.2"/><rect x="6" y="15" width="7" height="7" rx="1" stroke="#ffe06e" stroke-width="1.2"/><rect x="15" y="15" width="7" height="7" rx="1" stroke="#ffe06e" stroke-width="1.2"/></svg>
+          <span>Ofimática</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="portafolio">
+  <div class="s-label">portafolio</div>
+  <h2>Presentaciones</h2>
+  <div class="pres-grid reveal">
+
+    <div class="pres-card">
+      <div class="pres-hd">
+        <div class="pres-name">Sistema de Gestión Escolar</div>
+        <span class="pbadge ba">ACADÉMICO</span>
+      </div>
+      <div class="pres-embed">
+        <iframe title="Sistema de Gestión Escolar" loading="lazy" src="https://www.canva.com/design/DAGjKVCXiEU/3bIByISZQhnjZtb21-0ttA/view?embed" allowfullscreen allow="fullscreen"></iframe>
+      </div>
+      <div class="pres-ft">Requerimientos funcionales y de usuario de un sistema escolar. Casos de uso y estructura de datos comunicados visualmente.</div>
+    </div>
+
+    <div class="pres-card">
+      <div class="pres-hd">
+        <div class="pres-name">Pitch — Startup Reuno</div>
+        <span class="pbadge bs">EMPRENDIMIENTO</span>
+      </div>
+      <div class="pres-embed">
+        <iframe title="Pitch — Startup Reuno" loading="lazy" src="https://www.canva.com/design/DAGtd_JyB48/JFS5sRO5uzwP3W-TQgFABg/view?embed" allowfullscreen allow="fullscreen"></iframe>
+      </div>
+      <div class="pres-ft">Pitch de emprendimiento para startup de reciclaje. Propuesta de valor, modelo de negocio e impacto ambiental.</div>
+    </div>
+
+    <div class="pres-card">
+      <div class="pres-hd">
+        <div class="pres-name">Resumen Ejecutivo — Lendflow</div>
+        <span class="pbadge bc">CORPORATIVO</span>
+      </div>
+      <div class="pres-embed">
+        <iframe title="Resumen Ejecutivo — Lendflow" loading="lazy" src="https://www.canva.com/design/DAG3L28IvzU/7ZrQ7dNoz5j3KruI2xFovA/view?embed" allowfullscreen allow="fullscreen"></iframe>
+      </div>
+      <div class="pres-ft">Avances y mejoras operativas presentadas a liderazgo ejecutivo en fintech internacional.</div>
+    </div>
+
+    <div class="pres-card">
+      <div class="pres-hd">
+        <div class="pres-name">Análisis Técnico — Airflow</div>
+        <span class="pbadge bc">TÉCNICO</span>
+      </div>
+      <div class="pres-embed">
+        <iframe title="Análisis Técnico — Airflow" loading="lazy" src="https://www.canva.com/design/DAHIE6A0oyY/cTakkjkln2TpBlOFxj65Sg/view?embed" allowfullscreen allow="fullscreen"></iframe>
+      </div>
+      <div class="pres-ft">Análisis técnico sobre Airflow. Arquitectura, automatización de flujos y criterios de adopción explicados visualmente.</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="s-label">contacto</div>
+  <div class="contact-wrap reveal">
+    <div class="contact-left">
+      <div class="contact-h">¿Hablamos de<br>tu <em>proyecto</em>?</div>
+      <p class="contact-sub">Disponible para trabajo remoto, híbrido o presencial. Respondo rápido y trabajo orientado a resultados desde Medellín, Colombia.</p>
+    </div>
+    <div class="contact-right">
+      <a href="mailto:johanlromero2001@gmail.com" class="c-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        johanlromero2001@gmail.com
+      </a>
+      <a href="tel:+573105465685" class="c-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.13 2 2 0 012.18 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        310 546 5685
+      </a>
+      <a href="https://www.workana.com/freelancer/4f31a32a1401962214f7a66f2fd9b053" target="_blank" class="c-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        Workana — Johan Devlog
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft">© 2025 <em>Johan Leon</em> — Medellín, Colombia</div>
+  <div class="ft">Dev · QA · Automatización con IA</div>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.transform=`translate(${mx-4}px,${my-4}px)`;});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;curR.style.transform=`translate(${rx-16}px,${ry-16}px)`;requestAnimationFrame(a);})();
+document.querySelectorAll('a,.pres-card,.exp-card,.sk-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{curR.style.width='50px';curR.style.height='50px';curR.style.opacity='.2';});
+  el.addEventListener('mouseleave',()=>{curR.style.width='32px';curR.style.height='32px';curR.style.opacity='1';});
+});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
